@@ -1,2 +1,2 @@
 # ebusiness-ssm
-ssm framework
+ssm framework of e-bisiness
