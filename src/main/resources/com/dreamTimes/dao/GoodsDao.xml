@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dreamTimes.dao.GoodsDao">
+    <select id="sumCount" resultType="Integer">
+        select count(*) from goods
+    </select>
+
+    <select id="sumCountByIfdelete" resultType="Integer">
+        select count(*) from goods where ifdelete = 1
+    </select>
+
+    <select id="findContent" resultType="com.dreamTimes.beans.Goods">
+        select * from goods where ifdelete = 0 limit #{offset},#{num}
+    </select>
+
+    <select id="findContentByIfdelete" resultType="com.dreamTimes.beans.Goods">
+        select * from goods where ifdelete = 1 limit #{offset},#{num}
+    </select>
+
+    <insert id="addGoods">
+        insert into goods(gname,gprice,grepertory,gstandard,gphoto,gremarks,tname) values(#{goods.gname},#{goods.gprice},#{goods.grepertory},#{goods.gstandard},#{goods.gphoto},#{goods.gremarks},#{goods.tname})
+    </insert>
+
+    <update id="deletegoods">
+        update goods set ifdelete = 1 where gid = #{gid}
+    </update>
+
+    <update id="updategoods">
+        update goods
+         <set>
+             <if test="goods.gname != null">
+                 gname = #{goods.gname},
+             </if>
+             <if test="goods.gprice > 0">
+                 gprice = #{goods.gprice},
+             </if>
+             <if test="goods.grepertory > 0">
+                 grepertory = #{goods.grepertory},
+             </if>
+             <if test="goods.gsalevolume > 0">
+                 gsalevolume = #{goods.gsalevolume},
+             </if>
+             <if test="goods.gstandard != null">
+                 gstandard = #{goods.gstandard},
+             </if>
+             <if test="goods.gphoto != null">
+                 gphoto = #{goods.gphoto},
+             </if>
+             <if test="goods.gremarks != null">
+                 gremarks = #{goods.gremarks},
+             </if>
+             <if test="goods.tname != null">
+                 tname = #{goods.tname},
+             </if>
+         </set>
+        where gid = #{goods.gid}
+    </update>
+
+    <select id="select" resultType="com.dreamTimes.beans.Goods">
+        select * from goods where gid = #{gid}
+    </select>
+
+    <select id="selectAll" resultType="com.dreamTimes.beans.Goods">
+        select * from goods where gname like concat('%',#{gname},'%')
+    </select>
+
+    <delete id="deleteByTname">
+        delete from goods where tname = #{tname}
+    </delete>
+
+    <select id="getAll" resultType="com.dreamTimes.beans.Goods">
+        select * from goods
+    </select>
+</mapper>
